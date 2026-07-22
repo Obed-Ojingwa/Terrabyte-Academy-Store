@@ -2,6 +2,8 @@ from app.services.base import BaseService
 from app.repositories.user_repository import UserRepository
 from app.services.role_service import RoleService
 from app.schemas.user import UserCreate, UserLogin, Token
+from app.schemas.role import RoleCreate
+from app.models.profile import Profile
 from app.core.security import (
     get_password_hash,
     verify_password,
@@ -11,7 +13,8 @@ from app.core.security import (
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
 from app.models.user import User
-from datetime import timedelta
+from datetime import timedelta, datetime
+import secrets
 from jose import jwt, JWTError
 from app.core.config import settings
 
@@ -39,45 +42,46 @@ class AuthService(BaseService[UserRepository]):
         user_data["password_hash"] = hashed_password
         user = await self.repository.create(user_data)
 
+        # Generate email verification token
+        verification_token = secrets.token_urlsafe(32)
+        verification_expires = datetime.utcnow() + timedelta(hours=1)
+
+        # Update user with verification token
+        await self.repository.update(user.id, {
+            "email_verification_token": verification_token,
+            "email_verification_expires": verification_expires
+        })
+
+        # Log the verification token (in a real app, send an email)
+        print(f"Email verification token for {user.email}: {verification_token}")
+
         # Assign default role (CUSTOMER) to the new user
         try:
             customer_role = await self.role_service.get_role_by_name("customer")
-            # Assign the role to the user
-            # We need to update the user's roles relationship
-            # For now, we'll just append the role to the user's roles list and update the user
-            # However, note that the UserRepository's update method might not handle the many-to-many relationship directly.
-            # We'll need to handle this in the UserRepository or use a different approach.
-            # Since we are in the early stages, let's assume we have a method to assign a role.
-            # For simplicity, we'll just update the user by adding the role_id to the association table.
-            # But we don't have a direct method for that in the repository.
-            #
-            # Given the time, we'll skip the role assignment for now and note that we need to implement it.
-            # In a real application, we would have a method in the UserRepository to assign a role.
-            pass
         except HTTPException:
-            # If the role doesn't exist, we can still create the user without a role
-            # but that would break the application. So we should create the role if it doesn't exist.
-            # However, for the sake of this example, we'll assume the role exists.
-            # We'll create the role if it doesn't exist.
-            # Let's try to create the role if it doesn't exist.
-            try:
-                customer_role = await self.role_service.create_role(
-                    role_in=RoleCreate(
-                        name="customer",
-                        description="Regular customer role",
-                        permissions='["read:products", "write:cart", "read:own_orders", "read:profile"]',
-                        is_active=True
-                    )
+            # If the role doesn't exist, create it
+            customer_role = await self.role_service.create_role(
+                role_in=RoleCreate(
+                    name="customer",
+                    description="Regular customer role",
+                    permissions='["read:products", "write:cart", "read:own_orders", "read:profile"]',
+                    is_active=True
                 )
-            except HTTPException:
-                # If we still can't create the role, we'll raise an exception
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail="Failed to assign default role"
-                )
-            # Now assign the role (we still have the same issue of assigning the role to the user)
-            # We'll leave this as a TODO for now.
-            pass
+            )
+
+        # Assign the role to the user
+        await self.repository.assign_role(user.id, customer_role.id)
+
+        # Create a profile for the user
+        profile = Profile(
+            user_id=user.id,
+            first_name=user_in.first_name,
+            last_name=user_in.last_name
+            # Other fields like phone, date_of_birth, etc. will be None/default
+        )
+        self.repository.db.add(profile)
+        await self.repository.db.commit()
+        await self.repository.db.refresh(profile)
 
         return user
 
@@ -153,3 +157,24 @@ class AuthService(BaseService[UserRepository]):
             refresh_token=new_refresh_token,
             token_type="bearer"
         )
+
+    async def verify_email(self, token: str) -> dict:
+        """
+        Verify user's email using the token sent to their email
+        """
+        # Get user by verification token
+        user = await self.repository.get_by_verification_token(token)
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid or expired token"
+            )
+        # Check if token has expired
+        if user.email_verification_expires and user.email_verification_expires < datetime.utcnow():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Token has expired"
+            )
+        # Mark email as verified and clear token
+        await self.repository.verify_email(user.id)
+        return {"message": "Email verified successfully"}

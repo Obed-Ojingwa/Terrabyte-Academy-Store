@@ -76,6 +76,18 @@ async def refresh_token(
     return token
 
 
+@router.get("/verify-email")
+async def verify_email(
+    token: str,
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Verify user's email using the token sent to their email
+    """
+    result = await auth_service.verify_email(token)
+    return result
+
+
 @router.post("/logout")
 async def logout(
     current_user: User = Depends(get_current_active_user)
