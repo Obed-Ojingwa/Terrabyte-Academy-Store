@@ -3,8 +3,7 @@ from app.models.user import User
 from app.models.role import Role
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional, List
-from sqlalchemy import select, insert, update
-from app.models.user_role import user_role
+from sqlalchemy import select, update
 import uuid
 from datetime import datetime, timedelta
 
@@ -22,8 +21,7 @@ class UserRepository(BaseRepository[User]):
     async def get_by_role(self, role_name: str) -> List[User]:
         result = await self.db.execute(
             select(User)
-            .join(user_role, User.id == user_role.c.user_id)
-            .join(Role, user_role.c.role_id == Role.id)
+            .join(Role, User.role_id == Role.id)
             .where(Role.name == role_name)
         )
         return result.scalars().all()
@@ -35,8 +33,11 @@ class UserRepository(BaseRepository[User]):
         return result.scalar_one_or_none()
 
     async def assign_role(self, user_id: str, role_id: str) -> None:
-        stmt = insert(user_role).values(user_id=user_id, role_id=role_id)
-        await self.db.execute(stmt)
+        await self.db.execute(
+            update(User)
+            .where(User.id == user_id)
+            .values(role_id=role_id)
+        )
         await self.db.commit()
 
     async def verify_email(self, user_id: str) -> None:

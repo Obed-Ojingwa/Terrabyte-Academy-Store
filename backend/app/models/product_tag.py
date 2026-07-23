@@ -1,5 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Table
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, CHAR, ForeignKey, Table
 from app.db.base import BaseModel
 import uuid
 
@@ -8,6 +7,6 @@ import uuid
 product_tag = Table(
     'product_tag',
     BaseModel.metadata,
-    Column('product_id', UUID(as_uuid=True), ForeignKey('products.id'), primary_key=True),
-    Column('tag_id', UUID(as_uuid=True), ForeignKey('tags.id'), primary_key=True)
+    Column('product_id', CHAR(32), ForeignKey('products.id'), primary_key=True),
+    Column('tag_id', CHAR(32), ForeignKey('tags.id'), primary_key=True)
 )

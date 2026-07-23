@@ -15,14 +15,33 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Override sqlalchemy.url with our settings
+# Override sqlalchemy.url with our settings for the application
+# We set the async URL for the application
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+
+# Override the SQLAlchemy URL for Alembic to use synchronous SQLite
+# Alembic does not support async engines, so we use a synchronous URL
+# We'll use the same database file but with the synchronous SQLite driver
+# Convert the async URL to synchronous: replace the protocol and keep the rest.
+# Example: "sqlite+aiosqlite:///./test.db" -> "sqlite:///./test.db"
+if settings.DATABASE_URL.startswith("sqlite+aiosqlite://"):
+    # Keep the part after "://" (which includes the three slashes and the path)
+    sync_url = "sqlite://" + settings.DATABASE_URL.split("://", 1)[1]
+else:
+    # Fallback: replace the prefix (for other databases)
+    sync_url = settings.DATABASE_URL.replace("sqlite+aiosqlite://", "sqlite:///")
+config.set_section_option(config.config_ini_section, "sqlalchemy.url", sync_url)
+
+# Print the URL for debugging
+print(f"Alembic using SQLAlchemy URL: {sync_url}")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from app.db.base import Base
+# Import all models here to ensure they are registered with SQLAlchemy
+from app.models import user, profile, role, category, product, product_image, product_tag, tag, address, seller  # noqa
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

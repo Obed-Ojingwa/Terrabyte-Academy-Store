@@ -13,3 +13,5 @@ WORK_COMPLETED.md
 About.md
 
 frontend/node_modules
+backend/venv/
+

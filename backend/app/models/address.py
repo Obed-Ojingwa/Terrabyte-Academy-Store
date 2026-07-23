@@ -1,8 +1,6 @@
-from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, CHAR
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
-import uuid
 from app.models.user import User
 
 
@@ -10,7 +8,7 @@ class Address(BaseModel):
     """User address model for shipping and billing"""
     __tablename__ = "addresses"
 
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id = Column(CHAR(32), ForeignKey("users.id"), nullable=False)
     type = Column(String(20), nullable=False)  # shipping, billing, both
     is_default = Column(Boolean, default=False, nullable=False)
     first_name = Column(String(100), nullable=False)

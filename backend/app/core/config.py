@@ -16,9 +16,9 @@ class Settings(BaseSettings):
 
     # Database Settings
     DATABASE_URL: str = Field(
-        ...,
+        default="sqlite+aiosqlite:///./test.db",
         env="DATABASE_URL",
-        description="PostgreSQL connection string"
+        description="Database connection string"
     )
 
     # Security Settings

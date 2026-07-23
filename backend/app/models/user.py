@@ -1,9 +1,7 @@
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text, CHAR
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
 import uuid
-from app.models.user_role import user_role
 
 
 class User(BaseModel):
@@ -18,15 +16,14 @@ class User(BaseModel):
     email_verification_expires = Column(DateTime(timezone=True), nullable=True)
     password_reset_token = Column(String(255), nullable=True)
     password_reset_expires = Column(DateTime(timezone=True), nullable=True)
-    # Note: Role is now managed via the many-to-many relationship 'roles'
+    role_id = Column(CHAR(32), ForeignKey("roles.id"), nullable=True)
     last_login_at = Column(DateTime(timezone=True), nullable=True)
 
     # Relationships
     profile = relationship("Profile", back_populates="user", uselist=False, cascade="all, delete-orphan")
     addresses = relationship("Address", back_populates="user", cascade="all, delete-orphan")
     seller = relationship("Seller", back_populates="user", uselist=False, cascade="all, delete-orphan")
-    # Many-to-many relationship with Role
-    roles = relationship("Role", secondary=user_role, back_populates="users")
+    role = relationship("Role", back_populates="users")
 
     def __repr__(self):
         return f"<User(id={self.id}, email='{self.email}')>"

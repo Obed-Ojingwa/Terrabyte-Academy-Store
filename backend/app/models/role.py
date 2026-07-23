@@ -1,6 +1,5 @@
-from sqlalchemy import Column, String, Text, Boolean, DateTime
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm = relationship
+from sqlalchemy import Column, String, Text, Boolean, DateTime, CHAR
+from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
 import uuid
 from typing import List
@@ -22,8 +21,8 @@ class Role(BaseModel):
     permissions = Column(Text, nullable=True)  # JSON string of permissions
     is_active = Column(Boolean, default=True, nullable=False)
 
-    # Many-to-many relationship with User
-    users = relationship("User", secondary="user_role", back_populates="roles")
+    # One-to-many relationship with User
+    users = relationship("User", back_populates="role")
 
     def __repr__(self):
         return f"<Role(id={self.id}, name='{self.name}')>"

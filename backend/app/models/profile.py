@@ -1,5 +1,4 @@
-from sqlalchemy import Column, String, Text, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Text, DateTime, ForeignKey, CHAR
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
 import uuid
@@ -10,7 +9,7 @@ class Profile(BaseModel):
     """User profile model"""
     __tablename__ = "profiles"
 
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, unique=True)
+    user_id = Column(CHAR(32), ForeignKey("users.id"), nullable=False, unique=True)
     first_name = Column(String(100), nullable=True)
     last_name = Column(String(100), nullable=True)
     phone_number = Column(String(20), nullable=True)

@@ -1,5 +1,4 @@
-from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, Numeric
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, Numeric, Integer, CHAR
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
 import uuid
@@ -10,14 +9,14 @@ class Seller(BaseModel):
     """Seller model for users who sell products"""
     __tablename__ = "sellers"
 
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, unique=True)
+    user_id = Column(CHAR(32), ForeignKey("users.id"), nullable=False, unique=True)
     store_name = Column(String(200), nullable=False)
     store_description = Column(Text, nullable=True)
     logo_url = Column(String(500), nullable=True)
     banner_url = Column(String(500), nullable=True)
     is_approved = Column(Boolean, default=False, nullable=False)
     approval_date = Column(DateTime(timezone=True), nullable=True)
-    approved_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    approved_by = Column(CHAR(32), ForeignKey("users.id"), nullable=True)
     commission_rate = Column(Numeric(5, 4), default=0.10, nullable=False)  # 10% default
     payout_email = Column(String(255), nullable=True)
     payout_method = Column(String(50), nullable=True)  # bank_account, paypal, etc.

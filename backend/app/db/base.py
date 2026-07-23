@@ -1,7 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
-from sqlalchemy import Column, DateTime, Integer
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, DateTime, CHAR
 import uuid
 
 Base = declarative_base()
@@ -9,6 +8,6 @@ Base = declarative_base()
 class BaseModel(Base):
     __abstract__ = True
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    id = Column(CHAR(32), primary_key=True, default=lambda: uuid.uuid4().hex, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

@@ -1,8 +1,6 @@
-from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, Integer
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, Integer, CHAR
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
-import uuid
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -16,7 +14,7 @@ class Category(BaseModel):
 
     name = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
-    parent_id = Column(UUID(as_uuid=True), ForeignKey("categories.id"), nullable=True)
+    parent_id = Column(CHAR(32), ForeignKey("categories.id"), nullable=True)
     slug = Column(String(200), unique=True, nullable=False, index=True)
     icon_url = Column(String(500), nullable=True)
     image_url = Column(String(500), nullable=True)

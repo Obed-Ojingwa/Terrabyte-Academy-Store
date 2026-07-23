@@ -1,15 +1,13 @@
-from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm = relationship
+from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, Integer, CHAR
+from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
-import uuid
 
 
 class ProductImage(BaseModel):
     """Product image model"""
     __tablename__ = "product_images"
 
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id"), nullable=False)
+    product_id = Column(CHAR(32), ForeignKey("products.id"), nullable=False)
     url = Column(String(500), nullable=False)
     alt_text = Column(String(255), nullable=True)
     is_primary = Column(Boolean, default=False, nullable=False)

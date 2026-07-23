@@ -1,5 +1,4 @@
-from sqlalchemy import Column, String, Text, Integer, Float, Boolean, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Text, Integer, Float, Boolean, DateTime, ForeignKey, JSON, CHAR
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
 import uuid
@@ -34,8 +33,8 @@ class Product(BaseModel):
     meta_description = Column(String(160), nullable=True)
 
     # Foreign keys
-    seller_id = Column(UUID(as_uuid=True), ForeignKey("sellers.id"), nullable=False)
-    category_id = Column(UUID(as_uuid=True), ForeignKey("categories.id"), nullable=False)
+    seller_id = Column(CHAR(32), ForeignKey("sellers.id"), nullable=False)
+    category_id = Column(CHAR(32), ForeignKey("categories.id"), nullable=False)
 
     # Relationships
     seller = relationship("Seller", back_populates="products")
