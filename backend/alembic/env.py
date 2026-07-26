@@ -15,9 +15,12 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Override sqlalchemy.url with our settings for the application
-# We set the async URL for the application
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# Override sqlalchemy.url with our settings
+db_url = settings.DATABASE_URL
+# Convert async SQLite URL to sync for Alembic
+if db_url.startswith("sqlite+aiosqlite:"):
+    db_url = db_url.replace("sqlite+aiosqlite:", "sqlite:")
+config.set_main_option("sqlalchemy.url", db_url)
 
 # Override the SQLAlchemy URL for Alembic to use synchronous SQLite
 # Alembic does not support async engines, so we use a synchronous URL
