@@ -2,6 +2,13 @@ from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text, CHAR
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
 import uuid
+from enum import Enum
+
+
+class UserRole(str, Enum):
+    ADMIN = "admin"
+    SELLER = "seller"
+    CUSTOMER = "customer"
 
 
 class User(BaseModel):
