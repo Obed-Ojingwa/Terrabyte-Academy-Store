@@ -8,7 +8,7 @@ from datetime import datetime
 class UserBase(BaseSchema):
     email: EmailStr
     is_active: bool = True
-    role: UserRole
+    role: Optional[UserRole] = None
 
 
 class UserCreate(UserBase):

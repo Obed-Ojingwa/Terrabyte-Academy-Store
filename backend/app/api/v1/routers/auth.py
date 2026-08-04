@@ -6,7 +6,7 @@ from app.services.auth_service import AuthService
 from app.repositories.user_repository import UserRepository
 from app.services.role_service import RoleService
 from app.repositories.role_repository import RoleRepository
-from app.schemas.user import UserCreate, UserLogin, Token
+from app.schemas.user import UserCreate, UserLogin, Token, UserInDB
 from app.api.v1.deps import get_current_active_user
 from app.models.user import User
 
@@ -98,7 +98,7 @@ async def logout(
     return {"message": "Successfully logged out"}
 
 
-@router.get("/me", response_model=User)
+@router.get("/me", response_model=UserInDB)
 async def get_current_user_info(
     current_user: User = Depends(get_current_active_user)
 ):

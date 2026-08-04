@@ -29,7 +29,7 @@ class User(BaseModel):
     # Relationships
     profile = relationship("Profile", back_populates="user", uselist=False, cascade="all, delete-orphan")
     addresses = relationship("Address", back_populates="user", cascade="all, delete-orphan")
-    seller = relationship("Seller", back_populates="user", uselist=False, cascade="all, delete-orphan")
+    seller = relationship("Seller", back_populates="user", uselist=False, cascade="all, delete-orphan", foreign_keys="[Seller.user_id]")
     role = relationship("Role", back_populates="users")
 
     def __repr__(self):

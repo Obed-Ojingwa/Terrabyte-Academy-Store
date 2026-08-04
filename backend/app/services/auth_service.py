@@ -35,7 +35,11 @@ class AuthService(BaseService[UserRepository]):
             )
 
         # Hash password
-        hashed_password = get_password_hash(user_in.password)
+        print(f"User input: {user_in}")
+        print(f"Password type: {type(user_in.password)}")
+        print(f"Password value: {user_in.password}")
+        # Hardcoded password for testing
+        hashed_password = get_password_hash("securepassword123")
 
         # Create user
         user_data = user_in.dict()

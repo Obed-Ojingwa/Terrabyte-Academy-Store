@@ -2,7 +2,11 @@ from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, Nume
 from sqlalchemy.orm import relationship
 from app.db.base import BaseModel
 import uuid
-from app.models.user import User
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .product import Product
+    from .user import User
 
 
 class Seller(BaseModel):
@@ -29,6 +33,7 @@ class Seller(BaseModel):
     # Relationships
     user = relationship("User", back_populates="seller", foreign_keys=[user_id])
     approver = relationship("User", foreign_keys=[approved_by])
+    products = relationship("Product", back_populates="seller")
 
     def __repr__(self):
         return f"<Seller(id={self.id}, user_id={self.user_id}, store_name='{self.store_name}')>"

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .product import Product
-    from .service import Service  # We'll create this later
+    from .service import Service
 
 
 class Category(BaseModel):
@@ -27,7 +27,7 @@ class Category(BaseModel):
 
     # Relationships with products and services (using string references)
     products = relationship("Product", back_populates="category")
-    services = relationship("Service", back_populates="category")  # Will be defined in service.py
+    services = relationship("Service", back_populates="category")
 
     def __repr__(self):
         return f"<Category(id={self.id}, name='{self.name}', slug='{self.slug}')>"
