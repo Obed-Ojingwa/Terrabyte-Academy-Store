@@ -4,6 +4,7 @@ from app.db.base import BaseModel
 import uuid
 from app.models.category import Category
 from app.models.seller import Seller
+from app.models.inventory import Inventory
 from .product_tag import product_tag
 
 
@@ -45,6 +46,7 @@ class Product(BaseModel):
     cart_items = relationship("CartItem", back_populates="product")
     order_items = relationship("OrderItem", back_populates="product")
     wishlist_items = relationship("WishlistItem", back_populates="product")
+    inventory = relationship("Inventory", back_populates="product", uselist=False, cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Product(id={self.id}, name='{self.name}', sku='{self.sku}')>"

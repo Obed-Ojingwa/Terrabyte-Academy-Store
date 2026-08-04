@@ -31,6 +31,8 @@ class User(BaseModel):
     addresses = relationship("Address", back_populates="user", cascade="all, delete-orphan")
     seller = relationship("Seller", back_populates="user", uselist=False, cascade="all, delete-orphan", foreign_keys="[Seller.user_id]")
     role = relationship("Role", back_populates="users")
+    orders = relationship("Order", back_populates="user", cascade="all, delete-orphan")
+    wishlists = relationship("Wishlist", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User(id={self.id}, email='{self.email}')>"
