@@ -1,15 +1,15 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List
 from app.schemas.base import BaseSchema
 from datetime import datetime
-from app.models.product import ProductStatus  # We don't have this yet, but we can define later or remove
+# from app.models.product import ProductStatus  # We don't have this yet, but we can define later or remove
 
 
 class ProductBase(BaseSchema):
     name: str = Field(..., min_length=2, max_length=255)
     description: str = Field(..., min_length=10)
     short_description: Optional[str] = Field(None, max_length=500)
-    sku: str = Field(..., regex=r'^[A-Z0-9\-]+$')
+    sku: str = Field(..., pattern=r'^[A-Z0-9\-]+$')
     price: float = Field(..., gt=0)
     compare_at_price: Optional[float] = Field(None, gt=0)
     cost_price: Optional[float] = Field(None, gt=0)
@@ -32,7 +32,7 @@ class ProductCreate(ProductBase):
     category_id: str
     seller_id: str
 
-    @validator('compare_at_price')
+    @field_validator('compare_at_price')
     def compare_at_price_must_be_greater_than_price(cls, v, values):
         if v is not None and 'price' in values and v <= values['price']:
             raise ValueError('compare_at_price must be greater than price')
