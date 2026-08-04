@@ -91,21 +91,3 @@ class ProductImageInDB(ProductImageBase):
 
     class Config:
         orm_mode = True
-
-
-class TagBase(BaseSchema):
-    name: str = Field(..., min_length=1, max_length=50)
-    slug: str = Field(..., min_length=1, max_length=50)
-
-
-class TagCreate(TagBase):
-    pass
-
-
-class TagInDB(TagBase):
-    id: str
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        orm_mode = True
