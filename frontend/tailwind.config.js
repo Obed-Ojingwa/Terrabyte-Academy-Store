@@ -6,50 +6,38 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // Color palette - premium, modern, professional
+      // Color palette - Blue, Black, White theme
       colors: {
-        // Primary - indigo based but more refined
-        primary: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b'
+        // Primary Blue - professional and trustworthy
+        blue: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+          950: '#172554'
         },
-        // Secondary - slate for neutral professional look
-        secondary: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#020617'
+        // True Black to White scale
+        neutral: {
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#a3a3a3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0a0a0a',
+          1000: '#000000' // true black
         },
-        // Accent - for subtle highlights
-        accent: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e'
-        },
-        // Status colors - more meaningful
+        // Status colors (still using blue-based for consistency)
         status: {
           success: {
             50: '#f0fdf4',
@@ -86,25 +74,12 @@ module.exports = {
             700: '#b91c1c',
             800: '#991b1b',
             900: '#7f1d1d'
-          },
-          info: {
-            50: '#eff6ff',
-            100: '#dbeafe',
-            200: '#bfdbfe',
-            300: '#93c5fd',
-            400: '#60a5fa',
-            500: '#3b82f6',
-            600: '#2563eb',
-            700: '#1d4ed8',
-            800: '#1e40af',
-            900: '#1e3a8a'
           }
         }
       },
-      // Typography - modern, clean, premium
+      // Typography - clean and readable
       fontFamily: {
-        sans: ['Inter var', 'system-ui', 'sans-serif'],
-        display: ['Inter var', 'system-ui', 'sans-serif'],
+        sans: ['Inter var', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -132,7 +107,7 @@ module.exports = {
         extrabold: '800',
         black: '900',
       },
-      // Spacing - more refined scale
+      // Spacing - consistent and generous
       spacing: {
         '0.5': '0.125rem',
         '1': '0.25rem',
@@ -168,7 +143,7 @@ module.exports = {
         '80': '20rem',
         '96': '24rem',
       },
-      // Border radius - modern, not too rounded
+      // Border radius - modern but not excessive
       borderRadius: {
         'none': '0px',
         'sm': '0.125rem',
@@ -180,7 +155,7 @@ module.exports = {
         '3xl': '1.25rem',
         'full': '9999px',
       },
-      // Box shadow - subtle, premium shadows
+      // Box shadow - subtle and professional
       boxShadow: {
         'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
         DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
@@ -209,7 +184,7 @@ module.exports = {
         '95': '0.95',
         '100': '1',
       },
-      // Transition duration and easing
+      // Transition
       transitionDuration: {
         '75': '75ms',
         '100': '100ms',
@@ -240,7 +215,7 @@ module.exports = {
         '90': '90',
         '100': '100',
         '1000': '1000',
-        '10000': '10000',
+        '10000': '10000'
       }
     },
   },
