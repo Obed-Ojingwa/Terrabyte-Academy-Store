@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 
-export const Navbar = () => {
+interface NavbarProps {
+  onToggleSidebar: () => void;
+}
+
+export const Navbar = ({ onToggleSidebar }: NavbarProps) => {
   return (
     <nav className="border-b border-neutral-200 bg-white dark:bg-neutral-900 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,24 +17,38 @@ export const Navbar = () => {
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <Link to="/orders" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
-              Orders
-            </Link>
-            <Link to="/payments" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
-              Payments
-            </Link>
-            <Link to="/shipping" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
-              Shipping
-            </Link>
-            <Link to="/coupons" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
-              Coupons
-            </Link>
-            <Link to="/inventory" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
-              Inventory
-            </Link>
-            <Link to="/wishlist" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
-              Wishlist
-            </Link>
+            {/* Desktop navigation - hidden on mobile */}
+            <div className="hidden sm:flex">
+              <Link to="/orders" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
+                Orders
+              </Link>
+              <Link to="/payments" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
+                Payments
+              </Link>
+              <Link to="/shipping" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
+                Shipping
+              </Link>
+              <Link to="/coupons" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
+                Coupons
+              </Link>
+              <Link to="/inventory" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
+                Inventory
+              </Link>
+              <Link to="/wishlist" className="px-3 py-2 rounded-md text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800">
+                Wishlist
+              </Link>
+            </div>
+
+            {/* Mobile hamburger button */}
+            <button
+              onClick={onToggleSidebar}
+              className="p-2 rounded-md text-neutral-500 hover:text-neutral-900 bg-neutral-50 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:bg-neutral-800 dark:hover:bg-neutral-700 block sm:hidden"
+              aria-label="Open sidebar"
+            >
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

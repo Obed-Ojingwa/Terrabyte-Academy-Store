@@ -1,6 +1,7 @@
 export const HomePage = () => {
   return (
     <div className="space-y-8">
+      {/* Header */}
       <div className="flex flex-col items-center justify-between px-4 py-8 sm:flex-row sm:items-start">
         <div className="w-full sm:w-1/2">
           <h1 className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-50">
@@ -17,21 +18,22 @@ export const HomePage = () => {
         </div>
       </div>
 
+      {/* Stats Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* Orders Card */}
-        <div className="bg-white rounded-lg shadow-sm dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+        <div className="bg-white rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-900 dark:border-neutral-800">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Orders
               </div>
-              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-xl">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.737 1.707h17.414c.921 0 1.366-.857.737-1.707l-2.293-2.293z" />
                 </svg>
               </div>
             </div>
-            <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+            <div className="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
               124
             </div>
             <div className="mt-2 flex items-center text-sm">
@@ -42,19 +44,19 @@ export const HomePage = () => {
         </div>
 
         {/* Revenue Card */}
-        <div className="bg-white rounded-lg shadow-sm dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+        <div className="bg-white rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-900 dark:border-neutral-800">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Revenue
               </div>
-              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2v7h2.41l2.072-2.072a1 1 0 011.416 0l2.072 2.072H22v-2.41a2 2 0 00-2-2h-7.39l-.966-.966a1 1 0 00-1.415 0l-.966.966H12V8z" />
+              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-xl">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2v7h2.41l2.072-2.072a1 1 0 001.416 0l2.072 2.072H22v-2.41a2 2 0 00-2-2h-7.39l-.966-.966a1 1 0 00-1.415 0l-.966.966H12V8z" />
                 </svg>
               </div>
             </div>
-            <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+            <div className="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
               $8,420
             </div>
             <div className="mt-2 flex items-center text-sm">
@@ -65,19 +67,19 @@ export const HomePage = () => {
         </div>
 
         {/* Customers Card */}
-        <div className="bg-white rounded-lg shadow-sm dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+        <div className="bg-white rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-900 dark:border-neutral-800">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Customers
               </div>
-              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 008 0z" />
+              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-xl">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0012 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 008 0z" />
                 </svg>
               </div>
             </div>
-            <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+            <div className="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
               2,340
             </div>
             <div className="mt-2 flex items-center text-sm">
@@ -88,19 +90,19 @@ export const HomePage = () => {
         </div>
 
         {/* Inventory Card */}
-        <div className="bg-white rounded-lg shadow-sm dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+        <div className="bg-white rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-900 dark:border-neutral-800">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Inventory Items
               </div>
-              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m2 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-xl">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m2 0a9 9 0 01-18 0 9 9 0 0018 0z" />
                 </svg>
               </div>
             </div>
-            <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+            <div className="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
               156
             </div>
             <div className="mt-2 flex items-center text-sm">
@@ -112,7 +114,7 @@ export const HomePage = () => {
       </div>
 
       {/* Recent Activity Section */}
-      <div className="bg-white rounded-lg shadow-sm dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+      <div className="bg-white rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-900 dark:border-neutral-800">
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">
@@ -127,7 +129,7 @@ export const HomePage = () => {
             <div className="flex items-start space-x-3">
               <div className="flex h-5 w-5 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-full shrink-0">
                 <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0V17a3 3 0 01-3 3H6a3 3 0 01-3-3V4.697z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 001.946.806 3.42 3.42 0 001.946.806 3.42 3.42 0 001.946.806V17a3 3 0 01-3 3H6a3 3 0 01-3-3V4.697z" />
                 </svg>
               </div>
               <div className="flex-1 space-y-1">

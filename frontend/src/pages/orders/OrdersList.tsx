@@ -1,6 +1,7 @@
 export const OrdersList = () => {
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex flex-col items-center justify-between px-4 py-8 sm:flex-row sm:items-start">
         <div className="w-full sm:w-1/2">
           <h1 className="mb-2 text-2xl font-bold text-neutral-900 dark:text-neutral-50">
@@ -21,7 +22,7 @@ export const OrdersList = () => {
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg shadow-sm dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+      <div className="bg-white rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-900 dark:border-neutral-800">
         <div className="p-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
@@ -57,7 +58,7 @@ export const OrdersList = () => {
       </div>
 
       {/* Orders Table */}
-      <div className="bg-white rounded-lg shadow-sm dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 overflow-hidden">
+      <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden dark:bg-neutral-900 dark:border-neutral-800">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
             <thead className="bg-neutral-50 dark:bg-neutral-900">

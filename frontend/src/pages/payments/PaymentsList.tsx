@@ -1,43 +1,151 @@
 export const PaymentsList = () => {
   return (
-    <div>
-      <h1 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">Payments</h1>
-      <div className="mb-4">
-        <a href="/payments/create" className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Record Payment
-        </a>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col items-center justify-between px-4 py-8 sm:flex-row sm:items-start">
+        <div className="w-full sm:w-1/2">
+          <h1 className="mb-2 text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+            Payments
+          </h1>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            Overview of all payments received
+          </p>
+        </div>
+        <div className="w-full sm:w-1/2 flex justify-end mt-6 sm:mt-0">
+          <a href="/payments/create" className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-neutral-900">
+            Record Payment
+          </a>
+        </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-600">
-          <thead className="bg-gray-50 dark:bg-gray-600">
-            <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              <th scope="col" className="relative px-6 py-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y dark:bg-gray-800 dark:border-gray-700">
-            <tr className="hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">1</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">#1001</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">$129.99</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Credit Card</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  Completed
-                </span>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">2023-07-20</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <a href="#" className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200">View</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+      {/* Payments Table */}
+      <div className="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden dark:bg-neutral-900 dark:border-neutral-800">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
+            <thead className="bg-neutral-50 dark:bg-neutral-900">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider dark:text-neutral-400">
+                  ID
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider dark:text-neutral-400">
+                  Order
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider dark:text-neutral-400">
+                  Amount
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider dark:text-neutral-400">
+                  Method
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider dark:text-neutral-400">
+                  Status
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider dark:text-neutral-400">
+                  Date
+                </th>
+                <th scope="col" className="relative px-6 py-3">
+                  <span className="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y dark:bg-neutral-900 dark:divide-neutral-700">
+              {/* Payment Row 1 */}
+              <tr className="hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900 dark:text-neutral-50">
+                  1
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  #1001
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  $129.99
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  Credit Card
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-medium text-blue-800 bg-blue-100 dark:bg-blue-900 dark:text-blue-200">
+                    Completed
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  2023-07-20
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-200">
+                    View
+                  </a>
+                </td>
+              </tr>
+
+              {/* Payment Row 2 */}
+              <tr className="hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900 dark:text-neutral-50">
+                  2
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  #1002
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  $75.50
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  PayPal
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-medium text-blue-800 bg-blue-100 dark:bg-blue-900 dark:text-blue-200">
+                    Pending
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  2023-07-21
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-200">
+                    View
+                  </a>
+                </td>
+              </tr>
+
+              {/* Payment Row 3 */}
+              <tr className="hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900 dark:text-neutral-50">
+                  3
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  #1003
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  $200.00
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  Bank Transfer
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-medium text-blue-800 bg-blue-100 dark:bg-blue-900 dark:text-blue-200">
+                    Failed
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  2023-07-22
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-200">
+                    View
+                  </a>
+                </td>
+              </tr>
+
+              {/* Empty State Placeholder */}
+              {/*
+              <tr>
+                <td className="px-6 py-12 text-center text-neutral-500 dark:text-neutral-400" colSpan="6">
+                  No payments found.
+                </td>
+              </tr>
+              */}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
