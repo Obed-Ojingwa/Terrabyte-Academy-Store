@@ -25,8 +25,8 @@ export const HomePage = () => {
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Orders
               </div>
-              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
+                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.737 1.707h17.414c.921 0 1.366-.857.737-1.707l-2.293-2.293z" />
                 </svg>
               </div>
@@ -48,8 +48,8 @@ export const HomePage = () => {
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Revenue
               </div>
-              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
+                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2v7h2.41l2.072-2.072a1 1 0 011.416 0l2.072 2.072H22v-2.41a2 2 0 00-2-2h-7.39l-.966-.966a1 1 0 00-1.415 0l-.966.966H12V8z" />
                 </svg>
               </div>
@@ -71,8 +71,8 @@ export const HomePage = () => {
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Customers
               </div>
-              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
+                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 008 0z" />
                 </svg>
               </div>
@@ -94,8 +94,8 @@ export const HomePage = () => {
               <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                 Inventory Items
               </div>
-              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex h-6 w-6 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-lg">
+                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m2 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -124,9 +124,9 @@ export const HomePage = () => {
           </div>
           <div className="space-y-4">
             {/* Activity Item 1 */}
-            <div className="flex items-start space-x-4">
-              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-full shrink-0">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-start space-x-3">
+              <div className="flex h-5 w-5 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-full shrink-0">
+                <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0 3.42 3.42 0 001.946.806 3.42 3.42 0 014.768 0V17a3 3 0 01-3 3H6a3 3 0 01-3-3V4.697z" />
                 </svg>
               </div>
@@ -141,9 +141,9 @@ export const HomePage = () => {
             </div>
 
             {/* Activity Item 2 */}
-            <div className="flex items-start space-x-4">
-              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-full shrink-0">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-start space-x-3">
+              <div className="flex h-5 w-5 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-full shrink-0">
+                <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M5 13l1.5 1.5L10 11l1.5-1.5L19 7" />
                 </svg>
               </div>
@@ -158,9 +158,9 @@ export const HomePage = () => {
             </div>
 
             {/* Activity Item 3 */}
-            <div className="flex items-start space-x-4">
-              <div className="flex h-8 w-8 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-full shrink-0">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-start space-x-3">
+              <div className="flex h-5 w-5 items-center justify-center bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-400 rounded-full shrink-0">
+                <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3" />
                 </svg>
               </div>
