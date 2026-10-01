@@ -87,3 +87,10 @@ def test_user():
         is_active=True,
         email_verified=True
     )
+
+
+@pytest.fixture
+def mock_email_service():
+    """Fixture for a mocked email service."""
+    from unittest.mock import MagicMock
+    return MagicMock()

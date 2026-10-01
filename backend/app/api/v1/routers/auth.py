@@ -29,7 +29,10 @@ def get_auth_service(
     user_repo: UserRepository = Depends(get_user_repository),
     role_service: RoleService = Depends(get_role_service)
 ) -> AuthService:
-    return AuthService(user_repo, role_service)
+    # Import here to avoid circular imports
+    from app.services.email_service import EmailService
+    email_service = EmailService()
+    return AuthService(user_repo, role_service, email_service)
 
 
 @router.post("/register", response_model=Token)
@@ -85,6 +88,43 @@ async def verify_email(
     Verify user's email using the token sent to their email
     """
     result = await auth_service.verify_email(token)
+    return result
+
+
+@router.post("/reset-password/initiate")
+async def initiate_password_reset(
+    email: str,
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Initiate password reset process
+    """
+    result = await auth_service.initiate_password_reset(email)
+    return result
+
+
+@router.post("/reset-password/verify")
+async def verify_password_reset_token(
+    token: str,
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Verify password reset token
+    """
+    result = await auth_service.verify_password_reset_token(token)
+    return result
+
+
+@router.post("/reset-password/complete")
+async def complete_password_reset(
+    token: str,
+    new_password: str,
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Complete password reset process
+    """
+    result = await auth_service.complete_password_reset(token, new_password)
     return result
 
 

@@ -3,7 +3,7 @@ Tests for the authentication service.
 """
 import pytest
 from datetime import datetime, timedelta
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from app.services.auth_service import AuthService
 from app.schemas.user import UserCreate, UserLogin
@@ -24,9 +24,9 @@ def mock_role_service():
 
 
 @pytest.fixture
-def auth_service(mock_user_repo, mock_role_service):
+def auth_service(mock_user_repo, mock_role_service, mock_email_service):
     """Fixture for an AuthService instance with mocked dependencies."""
-    return AuthService(user_repository=mock_user_repo, role_service=mock_role_service)
+    return AuthService(user_repository=mock_user_repo, role_service=mock_role_service, email_service=mock_email_service)
 
 
 @pytest.fixture
@@ -41,7 +41,7 @@ def sample_user_data():
 
 
 @pytest.mark.asyncio
-async def test_register_user_success(auth_service, mock_user_repo, mock_role_service, sample_user_data):
+async def test_register_user_success(auth_service, mock_user_repo, mock_role_service, mock_email_service, sample_user_data):
     """Test successful user registration."""
     # Arrange
     mock_user_repo.get_by_email.return_value = None  # No existing user
@@ -76,23 +76,26 @@ async def test_register_user_success(auth_service, mock_user_repo, mock_role_ser
     mock_user_repo.assign_role.assert_called_once_with(
         created_user.id, customer_role.id
     )
+    # Verify that the email service was called to send verification email
+    mock_email_service.send_verification_email.assert_called_once_with(
+        sample_user_data.email,
+        MagicMock.ANY  # We don't need to check the exact token value
+    )
 
 
 @pytest.mark.asyncio
-async def test_register_user_email_already_exists(auth_service, mock_user_repo, sample_user_data):
+async def test_register_user_email_already_exists(auth_service, mock_user_repo, mock_email_service, sample_user_data):
     """Test registration fails when email already exists."""
     # Arrange
     existing_user = User(email=sample_user_data.email, password_hash="hashed")
     mock_user_repo.get_by_email.return_value = existing_user
 
     # Act & Assert
-    with pytest.raises(Exception) as excpt.raises(
-        Exception,  # In the actual code, this raises HTTPException
-        match="Email already registered"
-    ):
+    with pytest.raises(Exception) as exc_info:  # Should be HTTPException
         await auth_service.register_user(sample_user_data)
 
     # Assert
+    assert "Email already registered" in str(exc_info.value)
     mock_user_repo.get_by_email.assert_called_once_with(sample_user_data.email)
     mock_user_repo.create.assert_not_called()
 
@@ -338,3 +341,156 @@ async def test_verify_email_expired_token(auth_service, mock_user_repo):
 
     # Assert that it's an expired token error
     assert "Token has expired" in str(exc_info.value)
+
+
+@pytest.mark.asyncio
+async def test_initiate_password_reset_success(auth_service, mock_user_repo, mock_email_service):
+    """Test successful password reset initiation."""
+    # Arrange
+    email = "test@example.com"
+    mock_user = User(
+        id="test-user-id",
+        email=email,
+        is_active=True
+    )
+    mock_user_repo.get_by_email.return_value = mock_user
+
+    # Mock email service
+    mock_email_service.send_password_reset_email.return_value = True
+
+    # Act
+    result = await auth_service.initiate_password_reset(email)
+
+    # Assert
+    assert "If the email exists in our system" in result["message"]
+    mock_user_repo.get_by_email.assert_called_once_with(email)
+    mock_email_service.send_password_reset_email.assert_called_once()
+    # Check that the update method was called with reset token
+    assert mock_user_repo.update.call_count >= 1
+
+
+@pytest.mark.asyncio
+async def test_initiate_password_reset_nonexistent_user(auth_service, mock_user_repo):
+    """Test password reset initiation with non-existent user."""
+    # Arrange
+    email = "nonexistent@example.com"
+    mock_user_repo.get_by_email.return_value = None
+
+    # Act
+    result = await auth_service.initiate_password_reset(email)
+
+    # Assert
+    assert "If the email exists in our system" in result["message"]
+    mock_user_repo.get_by_email.assert_called_once_with(email)
+    mock_user_repo.update.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_verify_password_reset_token_success(auth_service, mock_user_repo):
+    """Test successful password reset token verification."""
+    # Arrange
+    token = "valid-reset-token"
+    user_id = "test-user-id"
+    mock_user = User(
+        id=user_id,
+        email="test@example.com",
+        password_reset_token=token,
+        password_reset_expires=datetime.utcnow() + timedelta(hours=1)
+    )
+    mock_user_repo.get_by_reset_token.return_value = mock_user
+
+    # Act
+    result = await auth_service.verify_password_reset_token(token)
+
+    # Assert
+    assert result["user_id"] == user_id
+    assert result["email"] == "test@example.com"
+    mock_user_repo.get_by_reset_token.assert_called_once_with(token)
+
+
+@pytest.mark.asyncio
+async def test_verify_password_reset_token_invalid(auth_service, mock_user_repo):
+    """Test password reset token verification fails with invalid token."""
+    # Arrange
+    token = "invalid-token"
+    mock_user_repo.get_by_reset_token.return_value = None
+
+    # Act & Assert
+    with pytest.raises(Exception) as exc_info:  # Should be HTTPException
+        await auth_service.verify_password_reset_token(token)
+
+    # Assert that it's an invalid token error
+    assert "Invalid or expired token" in str(exc_info.value)
+    mock_user_repo.get_by_reset_token.assert_called_once_with(token)
+
+
+@pytest.mark.asyncio
+async def test_verify_password_reset_token_expired(auth_service, mock_user_repo):
+    """Test password reset token verification fails with expired token."""
+    # Arrange
+    token = "expired-token"
+    user_id = "test-user-id"
+    mock_user = User(
+        id=user_id,
+        email="test@example.com",
+        password_reset_token=token,
+        password_reset_expires=datetime.utcnow() - timedelta(hours=1)  # Expired
+    )
+    mock_user_repo.get_by_reset_token.return_value = mock_user
+
+    # Act & Assert
+    with pytest.raises(Exception) as exc_info:  # Should be HTTPException
+        await auth_service.verify_password_reset_token(token)
+
+    # Assert that it's an expired token error
+    assert "Token has expired" in str(exc_info.value)
+    mock_user_repo.get_by_reset_token.assert_called_once_with(token)
+
+
+@pytest.mark.asyncio
+async def test_complete_password_reset_success(auth_service, mock_user_repo):
+    """Test successful password reset completion."""
+    # Arrange
+    token = "valid-reset-token"
+    new_password = "newpassword123"
+    user_id = "test-user-id"
+
+    # Mock token verification
+    with patch.object(AuthService, 'verify_password_reset_token', return_value={"user_id": user_id, "email": "test@example.com"}):
+        # Mock password hashing
+        with patch('app.services.auth_service.get_password_hash') as mock_hash:
+            mock_hash.return_value = "hashed_new_password"
+
+            # Mock repository update
+            mock_user_repo.update.return_value = None
+
+            # Act
+            result = await auth_service.complete_password_reset(token, new_password)
+
+            # Assert
+            assert "Password has been reset successfully" in result["message"]
+            mock_user_repo.update.assert_called_once_with(
+                user_id,
+                {
+                    "password_hash": "hashed_new_password",
+                    "password_reset_token": None,
+                    "password_reset_expires": None
+                }
+            )
+
+
+@pytest.mark.asyncio
+async def test_complete_password_reset_invalid_token(auth_service, mock_user_repo):
+    """Test password reset completion fails with invalid token."""
+    # Arrange
+    token = "invalid-token"
+    new_password = "newpassword123"
+
+    # Mock token verification to raise an exception
+    with patch.object(AuthService, 'verify_password_reset_token', side_effect=Exception("Invalid or expired token")):
+        # Act & Assert
+        with pytest.raises(Exception) as exc_info:
+            await auth_service.complete_password_reset(token, new_password)
+
+        # Assert that we got the expected error
+        assert "Invalid or expired token" in str(exc_info.value)

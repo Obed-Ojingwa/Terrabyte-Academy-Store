@@ -1,6 +1,7 @@
 from app.services.base import BaseService
 from app.repositories.user_repository import UserRepository
 from app.services.role_service import RoleService
+from app.services.email_service import EmailService
 from app.schemas.user import UserCreate, UserLogin, Token
 from app.schemas.role import RoleCreate
 from app.models.profile import Profile
@@ -20,10 +21,11 @@ from app.core.config import settings
 
 
 class AuthService(BaseService[UserRepository]):
-    def __init__(self, user_repository: UserRepository, role_service: RoleService):
+    def __init__(self, user_repository: UserRepository, role_service: RoleService, email_service: EmailService = None):
         # We need to initialize the base class with the user repository
         super().__init__(user_repository)
         self.role_service = role_service
+        self.email_service = email_service or EmailService()
 
     async def register_user(self, user_in: UserCreate) -> User:
         # Check if user already exists
@@ -56,8 +58,8 @@ class AuthService(BaseService[UserRepository]):
             "email_verification_expires": verification_expires
         })
 
-        # Log the verification token (in a real app, send an email)
-        print(f"Email verification token for {user.email}: {verification_token}")
+        # Send verification email
+        await self.email_service.send_verification_email(user.email, verification_token)
 
         # Assign default role (CUSTOMER) to the new user
         try:
@@ -182,3 +184,86 @@ class AuthService(BaseService[UserRepository]):
         # Mark email as verified and clear token
         await self.repository.verify_email(user.id)
         return {"message": "Email verified successfully"}
+
+    async def initiate_password_reset(self, email: str) -> dict:
+        """
+        Initiate password reset process by generating and sending a reset token.
+
+        Args:
+            email: User's email address
+
+        Returns:
+            dict: Status message
+        """
+        # Check if user exists
+        user = await self.repository.get_by_email(email)
+        if not user:
+            # For security, don't reveal that the user doesn't exist
+            return {"message": "If the email exists in our system, you will receive a password reset link"}
+
+        # Generate password reset token
+        reset_token = secrets.token_urlsafe(32)
+        reset_expires = datetime.utcnow() + timedelta(hours=1)
+
+        # Update user with reset token
+        await self.repository.update(user.id, {
+            "password_reset_token": reset_token,
+            "password_reset_expires": reset_expires
+        })
+
+        # Send password reset email
+        await self.email_service.send_password_reset_email(user.email, reset_token)
+
+        return {"message": "If the email exists in our system, you will receive a password reset link"}
+
+    async def verify_password_reset_token(self, token: str) -> dict:
+        """
+        Verify password reset token.
+
+        Args:
+            token: Password reset token
+
+        Returns:
+            dict: User information if token is valid
+        """
+        # Get user by reset token
+        user = await self.repository.get_by_reset_token(token)
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid or expired token"
+            )
+        # Check if token has expired
+        if user.password_reset_expires and user.password_reset_expires < datetime.utcnow():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Token has expired"
+            )
+        return {"user_id": user.id, "email": user.email}
+
+    async def complete_password_reset(self, token: str, new_password: str) -> dict:
+        """
+        Complete password reset process.
+
+        Args:
+            token: Password reset token
+            new_password: New password for the user
+
+        Returns:
+            dict: Status message
+        """
+        # Verify the token first
+        token_data = await self.verify_password_reset_token(token)
+        user_id = token_data["user_id"]
+
+        # Hash the new password
+        hashed_password = get_password_hash(new_password)
+
+        # Update user's password and clear reset token
+        await self.repository.update(user_id, {
+            "password_hash": hashed_password,
+            "password_reset_token": None,
+            "password_reset_expires": None
+        })
+
+        return {"message": "Password has been reset successfully"}

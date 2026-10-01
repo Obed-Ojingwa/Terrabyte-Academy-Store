@@ -47,3 +47,9 @@ class UserRepository(BaseRepository[User]):
             .values(email_verified=True, email_verification_token=None, email_verification_expires=None)
         )
         await self.db.commit()
+
+    async def get_by_reset_token(self, token: str) -> Optional[User]:
+        result = await self.db.execute(
+            select(User).where(User.password_reset_token == token)
+        )
+        return result.scalar_one_or_none()
