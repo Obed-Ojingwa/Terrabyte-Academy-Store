@@ -40,6 +40,29 @@ class ProductService(BaseService[ProductRepository]):
         products = await self.repository.get_featured_products(skip=skip, limit=limit)
         return [ProductInDB.from_orm(product) for product in products]
 
+    async def search_products(
+        self,
+        search_term: Optional[str] = None,
+        category_id: Optional[str] = None,
+        min_price: Optional[float] = None,
+        max_price: Optional[float] = None,
+        is_featured: Optional[bool] = None,
+        is_active: Optional[bool] = None,
+        skip: int = 0,
+        limit: int = 100
+    ) -> List[ProductInDB]:
+        products = await self.repository.search_products(
+            search_term=search_term,
+            category_id=category_id,
+            min_price=min_price,
+            max_price=max_price,
+            is_featured=is_featured,
+            is_active=is_active,
+            skip=skip,
+            limit=limit
+        )
+        return [ProductInDB.from_orm(product) for product in products]
+
     async def create_product(self, product_in: ProductCreate) -> ProductInDB:
         product = await self.repository.create(product_in.dict())
         return ProductInDB.from_orm(product)

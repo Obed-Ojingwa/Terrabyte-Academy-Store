@@ -115,6 +115,34 @@ async def read_featured_products(
     return await product_service.get_featured_products(skip=skip, limit=limit)
 
 
+@router.get("/search/", response_model=List[ProductInDB])
+async def search_products(
+    search_term: Optional[str] = Query(None, description="Search term for product name and description"),
+    category_id: Optional[str] = Query(None, description="Filter by category ID"),
+    min_price: Optional[float] = Query(None, description="Minimum price filter"),
+    max_price: Optional[float] = Query(None, description="Maximum price filter"),
+    is_featured: Optional[bool] = Query(None, description="Filter by featured status"),
+    is_active: Optional[bool] = Query(None, description="Filter by active status"),
+    skip: int = Query(0, ge=0, description="Number of records to skip"),
+    limit: int = Query(10, ge=1, le=100, description="Maximum number of records to return"),
+    product_service: ProductService = Depends(get_product_service),
+    current_user: User = Depends(get_current_active_user)
+):
+    """
+    Search products with various filters.
+    """
+    return await product_service.search_products(
+        search_term=search_term,
+        category_id=category_id,
+        min_price=min_price,
+        max_price=max_price,
+        is_featured=is_featured,
+        is_active=is_active,
+        skip=skip,
+        limit=limit
+    )
+
+
 @router.put("/{product_id}", response_model=ProductInDB)
 async def update_product(
     product_id: str,

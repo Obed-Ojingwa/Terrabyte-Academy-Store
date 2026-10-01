@@ -52,7 +52,7 @@ class ProductUpdate(BaseSchema):
     stock_quantity: Optional[int] = Field(None, ge=0)
     track_quantity: Optional[bool] = None
     allow_backorder: Optional[bool] = None
-    low_threshold: Optional[int] = Field(None, ge=0)
+    low_stock_threshold: Optional[int] = Field(None, ge=0)
     is_active: Optional[bool] = None
     is_featured: Optional[bool] = None
     requires_shipping: Optional[bool] = None

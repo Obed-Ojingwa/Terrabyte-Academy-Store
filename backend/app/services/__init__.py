@@ -4,4 +4,6 @@ from .tag_service import TagService
 from .auth_service import AuthService
 from .role_service import RoleService
 from .email_service import EmailService
+from .cart_service import CartService
+from .order_service import OrderService
 from .base import BaseService
