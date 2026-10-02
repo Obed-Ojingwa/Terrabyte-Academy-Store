@@ -20,6 +20,8 @@ class Service(BaseModel):
 
     # Relationships
     category = relationship("Category", back_populates="services")
+    service_reviews = relationship("ServiceReview", back_populates="service", cascade="all, delete-orphan")
+    testimonials = relationship("Testimonial", back_populates="service", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Service(id={self.id}, name='{self.name}')>"

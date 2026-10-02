@@ -47,6 +47,7 @@ class Product(BaseModel):
     order_items = relationship("OrderItem", back_populates="product")
     wishlist_items = relationship("WishlistItem", back_populates="product")
     inventory = relationship("Inventory", back_populates="product", uselist=False, cascade="all, delete-orphan")
+    testimonials = relationship("Testimonial", back_populates="product", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Product(id={self.id}, name='{self.name}', sku='{self.sku}')>"
