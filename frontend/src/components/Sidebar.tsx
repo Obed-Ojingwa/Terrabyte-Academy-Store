@@ -7,7 +7,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ open, onToggleOpen }: SidebarProps) => {
   return (
-    <aside className={`fixed left-0 top-0 h-full w-64 bg-white border-r border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 z-20 transition-transform duration-300 ease-in-out translate-x-full sm:translate-x-0 ${open ? 'translate-x-0' : ''}`}>
+    <aside className={`store-sidebar fixed left-0 top-0 h-full w-64 border-r border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 z-20 transition-transform duration-300 ease-in-out ${open ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0`}>
       {/* For mobile overlay, we need a backdrop; we'll handle in App */}
       <div className="flex h-16 items-center justify-between px-4 border-b border-neutral-200 dark:border-neutral-800">
         <div className="flex-shrink-0">

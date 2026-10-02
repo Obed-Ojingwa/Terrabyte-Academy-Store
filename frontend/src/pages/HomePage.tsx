@@ -1,8 +1,8 @@
 export const HomePage = () => {
   return (
-    <div className="space-y-8">
+    <div className="store-dashboard space-y-8">
       {/* Header */}
-      <div className="flex flex-col items-center justify-between px-4 py-8 sm:flex-row sm:items-start">
+      <div className="dashboard-heading flex flex-col items-center justify-between px-4 py-8 sm:flex-row sm:items-start">
         <div className="w-full sm:w-1/2">
           <h1 className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-50">
             Dashboard
@@ -12,8 +12,8 @@ export const HomePage = () => {
           </p>
         </div>
         <div className="w-full sm:w-1/2 flex justify-end mt-6 sm:mt-0">
-          <a href="/orders/create" className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-neutral-900">
-            Create New Order
+          <a href="/orders" className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-neutral-900">
+            View Orders
           </a>
         </div>
       </div>
@@ -112,6 +112,34 @@ export const HomePage = () => {
           </div>
         </div>
       </div>
+
+      {/* Revenue trend */}
+      <section className="revenue-panel rounded-lg border bg-white p-6">
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-neutral-500">Revenue overview</p>
+            <h2 className="mt-1 text-2xl font-bold text-neutral-900">$8,420.00</h2>
+          </div>
+          <div className="rounded-md bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-700">
+            +8.2% this week
+          </div>
+        </div>
+        <div className="revenue-chart" role="img" aria-label="Revenue trend rising through the week">
+          <svg viewBox="0 0 720 190" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="revenue-fill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="#2f8062" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#2f8062" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path className="chart-area" d="M0 151 C42 140 55 148 90 128 S145 136 180 112 S237 124 270 94 S330 104 360 87 S420 98 450 68 S510 88 540 54 S600 75 630 42 S684 53 720 18 V190 H0 Z" />
+            <path className="chart-line" d="M0 151 C42 140 55 148 90 128 S145 136 180 112 S237 124 270 94 S330 104 360 87 S420 98 450 68 S510 88 540 54 S600 75 630 42 S684 53 720 18" />
+          </svg>
+        </div>
+        <div className="mt-3 flex justify-between text-xs font-medium text-neutral-500">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
+      </section>
 
       {/* Recent Activity Section */}
       <div className="bg-white rounded-xl border border-neutral-200 shadow-sm dark:bg-neutral-900 dark:border-neutral-800">

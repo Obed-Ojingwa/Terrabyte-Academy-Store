@@ -17,7 +17,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="relative min-h-screen bg-gray-50 text-gray-900">
+      <div className="store-app relative min-h-screen text-gray-900">
         {/* Sidebar */}
         <Sidebar open={sidebarOpen} onToggleOpen={() => setSidebarOpen(!sidebarOpen)} />
         {/* Mobile backdrop */}
@@ -25,7 +25,7 @@ function App() {
           <div className="fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setSidebarOpen(false)} />
         )}
         {/* Main content */}
-        <main className={`flex-1 min-h-screen overflow-y-auto transition-all duration-300 ${sidebarOpen ? 'ml-0' : 'ml-64'} sm:ml-64`}>
+        <main className="store-main min-h-screen overflow-y-auto sm:ml-64">
           <div className="flex flex-col h-full">
             {/* Navbar */}
             <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />

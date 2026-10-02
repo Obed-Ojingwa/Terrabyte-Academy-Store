@@ -6,7 +6,7 @@ interface NavbarProps {
 
 export const Navbar = ({ onToggleSidebar }: NavbarProps) => {
   return (
-    <nav className="border-b border-neutral-200 bg-white dark:bg-neutral-900 dark:border-neutral-800">
+    <nav className="store-navbar border-b border-neutral-200 bg-white dark:bg-neutral-900 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
