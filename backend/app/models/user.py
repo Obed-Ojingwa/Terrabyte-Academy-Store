@@ -38,6 +38,7 @@ class User(BaseModel):
     certificates = relationship("Certificate", back_populates="user", cascade="all, delete-orphan")
     testimonials = relationship("Testimonial", back_populates="user", cascade="all, delete-orphan")
     blog_posts = relationship("BlogPost", back_populates="author", cascade="all, delete-orphan")
+    notifications = relationship("Notification", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User(id={self.id}, email='{self.email}')>"
