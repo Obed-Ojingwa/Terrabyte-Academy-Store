@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -12,39 +12,43 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { Sidebar } from './components/Sidebar';
 import { useState } from 'react';
 
-function App() {
+function OperationsApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <BrowserRouter>
-      <div className="store-app relative min-h-screen text-gray-900">
-        {/* Sidebar */}
-        <Sidebar open={sidebarOpen} onToggleOpen={() => setSidebarOpen(!sidebarOpen)} />
-        {/* Mobile backdrop */}
-        {sidebarOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setSidebarOpen(false)} />
-        )}
-        {/* Main content */}
-        <main className="store-main min-h-screen overflow-y-auto sm:ml-64">
-          <div className="flex flex-col h-full">
-            {/* Navbar */}
-            <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-            <div className="flex-1 px-4 sm:px-6 lg:px-8 py-8 overflow-y-auto">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/orders" element={<OrdersPage />} />
-                <Route path="/payments" element={<PaymentsPage />} />
-                <Route path="/shipping" element={<ShippingPage />} />
-                <Route path="/coupons" element={<CouponsPage />} />
-                <Route path="/inventory" element={<InventoryPage />} />
-                <Route path="/wishlist" element={<WishlistPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </div>
+    <div className="store-app relative min-h-screen text-gray-900">
+      <Sidebar open={sidebarOpen} onToggleOpen={() => setSidebarOpen(!sidebarOpen)} />
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setSidebarOpen(false)} />
+      )}
+      <main className="store-main min-h-screen overflow-y-auto sm:ml-64">
+        <div className="flex flex-col h-full">
+          <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+          <div className="flex-1 px-4 sm:px-6 lg:px-8 py-8 overflow-y-auto">
+            <Routes>
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/payments" element={<PaymentsPage />} />
+              <Route path="/shipping" element={<ShippingPage />} />
+              <Route path="/coupons" element={<CouponsPage />} />
+              <Route path="/inventory" element={<InventoryPage />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
           </div>
-        </main>
+        </div>
         <Footer />
-      </div>
+      </main>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/*" element={<OperationsApp />} />
+      </Routes>
     </BrowserRouter>
   );
 }
